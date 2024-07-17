@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
 
-    <title>4 Ways to Build a Trans-inclusive Workplace</title>
+    <title>Rise microlearning testing</title>
 
     <link type="text/css" rel="stylesheet" href="lib/icomoon.css">
     <script type="text/javascript" src="lib/player-0.0.11.min.js"></script>
@@ -21,7 +21,7 @@
     <![endif]-->
 
     <script id="__ENTRY__" type="application/json">
-      {".js":["rise/11b8b13b.js"]}
+      {".js":["rise/8e69bdf8.js"]}
     </script>
 
     <script id="__REMOTE_ENTRIES__" type="application/json">
@@ -113,18 +113,30 @@
             name = window.i18n.available[0]
           }
           const encoded = await __loadJsonp(`course:${name}`, `locales/${name}.js`)
-          const courseData = deserialize(encoded)
+          const courseData = deserialize(encoded); resolveCourseData(courseData);
           return courseData
         }
 
-        window.__loadEntry = __loadEntry
+        let resolveCourseData;
+            let courseDataPromise = new Promise(function (resolve, reject) {
+                resolveCourseData = resolve;
+            });
+            function __courseDataReady() {
+                return new Promise((resolve) => {
+                    courseDataPromise.then((courseData) =>
+                        resolve(courseData)
+                    );
+                });
+            }
+            window.__courseDataReady = __courseDataReady;
+            window.__loadEntry = __loadEntry;
         window.__loadRemoteEntry = __loadRemoteEntry
         window.__loadJsonp = __loadJsonp
         window.__resolveJsonp = __resolveJsonp
         window.__fetchCourse = __fetchCourse
       })()
     </script>
-  </head>
+  <link rel="stylesheet" href="./mighty-blocks/mighty-rise-styles.css"></head>
   <body>
     <div id="app"></div>
     <script type="text/javascript">
@@ -149,6 +161,7 @@
     }
 
     root.Runtime = {
+                courseDataReady: window.__courseDataReady,
       fetch: window.__fetchCourse,
       fetchAvailableLocales: fetchAvailableLocales,
       isExport: isExport,
@@ -161,5 +174,5 @@
     
     <script>__loadEntry()</script>
     
-  </body>
+  <script src="./mighty-shared-runtime/mighty-shared-runtime.js"></script><script src="./mighty-blocks/mighty-blocks-runtime.js"></script><script src="./mighty-blocks/mighty-blocks.js"></script><script src="./mighty-mods/mighty-mods-runtime.js"></script><script src="./mighty-mods/mighty-rise-block-mods.js"></script><script src="./mighty-mods/mighty-rise-theme-mods.js"></script></body>
 </html>
